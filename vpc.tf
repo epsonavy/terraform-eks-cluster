@@ -10,8 +10,8 @@ resource "aws_vpc" "demo" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
-    Name = "terraform-eks-demo-node"
-    Owner = "pei.b.liu"
+    Name        = "terraform-eks-demo-node"
+    Owner       = "pei.b.liu"
     Environment = "dev"
   }
 }
@@ -29,8 +29,8 @@ resource "aws_subnet" "demo" {
   map_public_ip_on_launch = "true"
 
   tags = {
-    Name = "terraform-eks-demo-node"
-    Owner = "pei.b.liu"
+    Name        = "terraform-eks-demo-node"
+    Owner       = "pei.b.liu"
     Environment = "dev"
   }
 }
@@ -53,7 +53,7 @@ resource "aws_route_table" "demo" {
 }
 
 resource "aws_route_table_association" "demo" {
-  count = 2
+  count          = 2
   subnet_id      = aws_subnet.demo.*.id[count.index]
   route_table_id = aws_route_table.demo.id
 }

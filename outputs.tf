@@ -57,3 +57,30 @@ output "config_map_aws_auth" {
 output "kubeconfig" {
   value = local.kubeconfig
 }
+
+output "db_url" {
+  value       = aws_db_instance.database.endpoint
+  description = "endpoint of the db"
+}
+
+output "db_username" {
+  value       = aws_db_instance.database.username
+  description = "username of the db"
+}
+
+output "db_password" {
+  value       = aws_db_instance.database.password
+  description = "password of the db"
+  sensitive   = true
+}
+
+output "db_config" {
+  value = {
+    user     = aws_db_instance.database.username
+    password = aws_db_instance.database.password
+    database = aws_db_instance.database.name
+    hostname = aws_db_instance.database.address
+    port     = aws_db_instance.database.port
+  }
+  sensitive   = true
+}
