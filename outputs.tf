@@ -55,7 +55,7 @@ KUBECONFIG
 # }
 
 output "kube_endpoint" {
-  value = "${aws_eks_cluster.demo.endpoint}"
+  value = aws_eks_cluster.demo.endpoint
 }
 
 output "db_url" {
@@ -82,11 +82,15 @@ output "db_config" {
     hostname = aws_db_instance.database.address
     port     = aws_db_instance.database.port
   }
-  sensitive   = true
+  sensitive = true
 }
 
-output "kubeconfig" {
-  value = local.kubeconfig
+# output "kubeconfig" {
+#   value = local.kubeconfig
+# }
+
+output "publicIP" {
+  value = helm_release.ingress.id
 }
 
 # Done
