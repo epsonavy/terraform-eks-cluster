@@ -92,17 +92,35 @@ output "kubeconfig" {
 # Done
 # Install aws-iam-authenticator
 
+# CMD
+# kubectl get pods --all-namespaces
+# kubectl config set-context --current --namespace=hello-world
+# kubectl get pod -o wide
+
 # TO DO
 # find a way to use local-exec to run following
 # terraform output -raw kubeconfig > ~/.kube/config
 
-# provider "kubectl" {
-#   load_config_file       = false
-#   host                   = "https://${data.google_container_cluster.my_cluster.endpoint}"
-#   token                  = "${data.google_container_cluster.my_cluster.access_token}"
-#   cluster_ca_certificate = "${base64decode(data.google_container_cluster.my_cluster.master_auth.0.cluster_ca_certificate)}"
-# }
+# https://stackoverflow.com/questions/67364542/how-to-expose-an-ingress-on-kuberntes-to-get-the-public-ip-address
+# install the ingress controller basically which handles and manages the ingress object.
+# there are multiple ingress controllers available in the market for the Kubernetes you can use one of as per need.
 
-# resource "kubectl_manifest" "my_service" {
-#     yaml_body = file("${path.module}/my_service.yaml")
-# }
+# https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/
+
+# so your whole traffic whole will be something like
+# internet > ingress > ingress controller > Kubernetes service > pod >  container
+#...
+
+# Note 07/15/2021
+# https://kubernetes.github.io/ingress-nginx/deploy/#aws
+# https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release
+# install ingress-nginx from helm
+# helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+# helm repo update
+
+# helm install ingress-nginx ingress-nginx/ingress-nginx
+
+
+
+
+# kubectl get pod nginxdemos-deployment-8458bcd645-r6x5r -o json |jq .status.hostIP

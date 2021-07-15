@@ -6,7 +6,7 @@ resource "kubernetes_namespace" "test" {
 resource "kubernetes_deployment" "test" {
   metadata {
     name      = "nginxdemos-deployment"
-    namespace = kubernetes_namespace.test.metadata.0.name
+    # namespace = kubernetes_namespace.test.metadata.0.name
   }
   spec {
     replicas = 1
@@ -36,7 +36,7 @@ resource "kubernetes_deployment" "test" {
 resource "kubernetes_service" "test" {
   metadata {
     name      = "nginxdemos-service"
-    namespace = kubernetes_namespace.test.metadata.0.name
+    # namespace = kubernetes_namespace.test.metadata.0.name
   }
   spec {
     selector = {
