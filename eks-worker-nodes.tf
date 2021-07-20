@@ -19,4 +19,7 @@ resource "aws_eks_node_group" "demo" {
     aws_iam_role_policy_attachment.demo-node-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.demo-node-AmazonEC2ContainerRegistryReadOnly,
   ]
+  tags = merge(local.common_tags, {
+    "Name" = "terraform-eks-demo-node-group"
+  })
 }

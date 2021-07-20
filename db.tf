@@ -14,9 +14,7 @@ resource "aws_db_instance" "database" {
   password            = random_password.password.result
   skip_final_snapshot = true
 
-  tags = {
-    Name        = "terraform-eks-demo-db"
-    Owner       = "pei.b.liu"
-    Environment = "dev"
-  }
+  tags = merge(local.common_tags, {
+    "Name" = "terraform-eks-demo-db"
+  })
 }

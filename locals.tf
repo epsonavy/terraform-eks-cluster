@@ -1,10 +1,16 @@
 
 locals {
+  # Common tags
+  common_tags = {
+    "Owner"       = "pei.b.liu"
+    "Environment" = "dev"
+  }
   # The external IP of your local workstation
   workstation-external-cidr = "${chomp(data.http.workstation-external-ip.body)}/32"
   # Hard coded available zones
   subnet_availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
 
+  # Config
   config_map_aws_auth = <<CONFIGMAPAWSAUTH
 
 
