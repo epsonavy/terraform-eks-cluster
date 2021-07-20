@@ -8,6 +8,21 @@ resource "helm_release" "ingress" {
   ]
 }
 
+# set kubectl config from terraform output
+resource "null_resource" "after_output" {
+  triggers = {
+    name = "${var.cluster-name}"
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      mkdir ~/.kube && touch ~/.kube/config
+      terraform output -raw kubeconfig > ~/.kube/config
+    EOT
+  }
+}
+
+# deploy ingress-nginx 
 resource "null_resource" "after_deployment" {
   triggers = {
     helm_id = "${helm_release.ingress.id}"
@@ -17,3 +32,4 @@ resource "null_resource" "after_deployment" {
     command = "kubectl apply -f kubernetes-ingress.yaml"
   }
 }
+

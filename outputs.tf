@@ -54,9 +54,9 @@ KUBECONFIG
 #   value = local.config_map_aws_auth
 # }
 
-output "kube_endpoint" {
-  value = aws_eks_cluster.demo.endpoint
-}
+# output "kube_endpoint" {
+#   value = aws_eks_cluster.demo.endpoint
+# }
 
 output "db_url" {
   value       = aws_db_instance.database.endpoint
@@ -85,15 +85,29 @@ output "db_config" {
   sensitive = true
 }
 
-# output "kubeconfig" {
-#   value = local.kubeconfig
-# }
-
-output "publicIP" {
-  value = helm_release.ingress.id
+output "kubeconfig" {
+  value = local.kubeconfig
 }
 
+data "kubernetes_service" "service_ingress" {
+  metadata {
+    name = "ingress-nginx-controller"
+  }
+
+  depends_on = [ helm_release.ingress ] 
+}
+
+output "LoadBalance_IP" {
+  value = data.kubernetes_service.service_ingress.status[0].load_balancer[0].ingress[0].hostname
+}
+
+# TODO
+# output "publicIP" {
+#   value = helm_release.ingress.id
+# }
+
 # Done
+# Install kubectl
 # Install aws-iam-authenticator
 
 # CMD
@@ -123,8 +137,5 @@ output "publicIP" {
 # helm repo update
 
 # helm install ingress-nginx ingress-nginx/ingress-nginx
-
-
-
 
 # kubectl get pod nginxdemos-deployment-8458bcd645-r6x5r -o json |jq .status.hostIP
