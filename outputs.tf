@@ -41,16 +41,23 @@ output "kubeconfig" {
   value = local.kubeconfig
 }
 
-data "kubernetes_service" "service_ingress" {
-  metadata {
-    name = "ingress-nginx-controller"
-  }
+# old way:
+# data "kubernetes_service" "service_ingress" {
+#   metadata {
+#     name = "ingress-nginx-controller"
+#   }
 
-  depends_on = [helm_release.ingress]
-}
+#   depends_on = [helm_release.ingress]
+# }
 
-output "LoadBalance_IP" {
-  value = data.kubernetes_service.service_ingress.status[0].load_balancer[0].ingress[0].hostname
+# output "LoadBalance_IP" {
+#   value = data.kubernetes_service.service_ingress.status[0].load_balancer[0].ingress[0].hostname
+# }
+
+# new way:
+# Display load balancer hostname (typically present in AWS)
+output "load_balancer_hostname" {
+  value = kubernetes_ingress.gate.status.0.load_balancer.0.ingress.0.hostname
 }
 
 # TODO

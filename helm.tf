@@ -22,14 +22,27 @@ resource "null_resource" "after_output" {
   }
 }
 
-# deploy ingress-nginx 
-resource "null_resource" "after_deployment" {
-  triggers = {
-    helm_id = "${helm_release.ingress.id}"
-  }
+# old way that use YAML file
+# # deploy ingress-nginx 
+# resource "null_resource" "deploy_ingress" {
+#   triggers = {
+#     helm_id = "${helm_release.ingress.id}"
+#   }
 
-  provisioner "local-exec" {
-    command = "kubectl apply -f kubernetes-ingress.yaml"
-  }
-}
+#   provisioner "local-exec" {
+#     command = "kubectl apply -f kubernetes-ingress.yaml"
+#   }
+# }
+
+# # destroy ingress-nginx 
+# resource "null_resource" "destroy_ingress" {
+#   triggers = {
+#     helm_id = "${helm_release.ingress.id}"
+#   }
+
+#   provisioner "local-exec" {
+#     when = destroy
+#     command = "kubectl delete -f kubernetes-ingress.yaml"
+#   }
+# }
 
