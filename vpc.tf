@@ -16,10 +16,6 @@ resource "aws_vpc" "demo" {
   }
 }
 
-locals {
-  subnet_availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
-}
-
 resource "aws_subnet" "demo" {
   count = 2
 
